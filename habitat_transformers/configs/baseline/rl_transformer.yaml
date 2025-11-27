@@ -1,0 +1,13 @@
+# @package _global_
+
+defaults:
+  - rl
+  - /policy@habitat_baselines.rl.policy.main_agent: transformer
+  - _self_
+
+habitat_baselines:
+  torch_gpu_id: -1
+  trainer_name: "ddppo"
+  # updater_name: "TransformerPPO"
+  # distrib_updater_name: "DistributedTransformerPPO"
+  rollout_storage_name: "MinimalTransformerRolloutStorage"

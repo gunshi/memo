@@ -1,0 +1,13 @@
+# @package habitat_baselines.rl.policy
+name: "FlatPolicy"
+ac_hidden_size: 512
+debug_mode: False
+use_b16: False
+use_vc1: False
+vc1_use_b16: False
+train_visual_encoder: True
+context_len: 32
+train_decoder: True
+model_id: "llama"
+inter_episodes_attention: False
+reset_position_index: True

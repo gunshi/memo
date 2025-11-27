@@ -1,0 +1,73 @@
+# @package _global_
+
+defaults:
+  - /habitat: habitat_config_base
+  - /habitat/task: custom_task_config_base
+  - /habitat/simulator: rearrange_sim
+  - /habitat/simulator/sensor_setups@habitat.simulator.agents.main_agent: rgb_head_agent
+  - /habitat/task/rearrange/actions: fetch_suction_base_stop
+  - /habitat/simulator/agents@habitat.simulator.agents.main_agent: fetch_suction
+  - /habitat/dataset/rearrangement: replica_cad
+  - /habitat/task/measurements:
+    - articulated_agent_force
+    - force_terminate
+    - articulated_agent_colls
+    - does_want_terminate
+    - num_steps
+    - geo_disc_distance
+    - l2_distance
+    - rot_dist_to_closest_goal
+    - custom_pddl_task_success
+    - spl_geodisc
+    - soft_spl_geodisc
+    - bad_called_terminate
+    - named_nav_to_obj_reward
+  - /habitat/task/lab_sensors:
+    - joint_sensor
+    - one_hot_target_sensor
+    - localization_sensor
+  - _self_
+
+habitat:
+  simulator:
+    kinematic_mode: True
+    ac_freq_ratio: 1
+    step_physics: False
+    agents:
+      main_agent:
+        joint_start_noise: 0
+        joint_start_override: [1.573,1.573,-3.14,-1.573,0,-1.573,0]
+  gym:
+    obs_keys:
+      - head_rgb
+      - one_hot_target_sensor
+      - localization_sensor
+  task:
+    type: PddlMultiTask-v0
+    start_template: []
+    goal_template:
+      expr_type: AND
+      sub_exprs:
+        - "robot_at(obj, robot_0)"
+    sample_entities:
+      "obj":
+        "type": "movable_entity_type"
+    reward_measure: named_nav_to_obj_reward
+    task_spec_base_path: 'configs/pddl'
+    pddl_domain_def: "domain"
+    success_measure: custom_pddl_task_success
+    success_reward: 10.0
+    slack_reward: -0.005
+    end_on_success: True
+    constraint_violation_ends_episode: False
+    constraint_violation_drops_object: True
+    measurements:
+      custom_predicate_task_success:
+        must_call_stop: False
+      force_terminate:
+        max_accum_force: 10_000.0
+        max_instant_force: 10_000.0
+  environment:
+    max_episode_steps: 400
+  dataset:
+    data_path: data/datasets/replica_cad/rearrange/v1/{split}/rearrange_easy.json.gz
