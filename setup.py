@@ -1,8 +1,18 @@
 from setuptools import setup
 
 setup(
-    name="habitat_transformers",
-    packages=["habitat_transformers"],
-    install_requires=[],
+    name="memo",
+    packages=["memo"],
+    install_requires=[
+        "transformers==4.35.0",
+        "einops==0.7.0",
+        "accelerate==0.24.1",
+        "torch==2.3.1",
+        "pandas",
+        "flash-attn==2.4.1",
+        "vc_models @ git+https://github.com/facebookresearch/eai-vc.git@76fe35e87b1937168f1ec4b236e863451883eaf3#subdirectory=vc_models",
+        "habitat-lab @ git+https://github.com/facebookresearch/habitat-lab.git@v0.3.0#subdirectory=habitat-lab",
+        "habitat-baselines @ git+https://github.com/facebookresearch/habitat-lab.git@v0.3.0#subdirectory=habitat-baselines",
+    ],
     version="0.1",
 )
