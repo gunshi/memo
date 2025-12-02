@@ -9,8 +9,6 @@ __pycache__/
 *.json
 *.txt
 *.csv
-images/
-*/images/
 environment.yml
 data
 
